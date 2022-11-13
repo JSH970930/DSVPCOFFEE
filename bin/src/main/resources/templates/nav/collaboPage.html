@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<head>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+	<!-- 사용자 CSS 추가 -->
+	<style type="text/css">
+		.img {
+			width: 100%;
+		}
+	</style>
+	<!-- 사용자 스크립트 추가 -->
+	<th:block layout:fragment="script">
+	
+	</th:block>
+</head>
+
+<div layout:fragment="content">
+	<img class="img" src="img/collabo.jpg">
+</div>
+</html>

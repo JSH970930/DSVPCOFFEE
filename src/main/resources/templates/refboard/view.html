@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="~{layouts/layout}">
+<!-- layout Content -->
+<head>
+<th:block layout:fragment="css">
+		<style>
+			.title {
+				color: white;
+				background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+				text-align: center;
+				border: 3px solid black;
+				max-width: 700px;
+				min-width: 400px;
+				font-size: 2.0em;
+				font-weight: bold;
+				margin: auto;
+				border-radius: 10px 10px 10px 10px;
+			}
+			
+			input[type=file]::file-selector-button {
+				width: 100px;
+	  			padding: 5px;
+	  			background: white;
+	  			border: 3px solid #61b6b2;
+	  			border-radius: 10px;
+	  			cursor: pointer;
+	  			transition: all 0.5s;
+			}
+			
+			input[type=file]::file-selector-button:hover {
+				width: 100px;
+	  			padding: 5px;
+	  			font-weight: bold;
+	  			color: white;
+	  			background: #61b6b2;
+	  			border: 5px solid #61b6b2;
+	  			cursor: pointer;
+			}
+			
+			.fileBox {
+				margin: auto;
+				text-align: center;
+			}
+			
+			.form-control1 {
+				margin: auto;
+				text-align: 
+			}
+		</style>
+	</th:block>
+</head>
+<th:block layout:fragment="content">
+	<!-- <th:block layout:fragment="css"> -->
+	<div class="container">
+		<br>
+		<br>
+		<p class="title">자 료 실</p>
+		<br>
+		<form id="frm" action="/refboard/view/action" method="post"
+			th:with="refInfo=${refResultMap.refInfo}"
+			enctype="multipart/form-data">
+			<input type="hidden" name="refId" th:value="${refInfo.refId}">
+			<div class="mb-3">
+				<label class="form-label font-weight-bold">제목</label>
+				<input type="text" class="form-control" name="refTitle" th:value="${refInfo.refTitle}" required>
+			</div>
+			<div class="mb-3">
+				<label class="form-label font-weight-bold">내용</label>
+				<textarea class="form-control" rows="5" name="refContent"
+					th:text="${refInfo.refContent}" required></textarea>
+			</div>
+			<div class="mb-3">
+				<label class="form-label font-weight-bold">작성자</label>
+				<input type="text" class="form-control" name="refRegisterId" th:value="${refInfo.refRegisterId}" required readonly>
+			</div>
+			<div class="fileBox">
+			<div class="mb-3">
+				<label class="form-label font-weight-bold mt-2">파일 업로드</label>
+				<div class="mb-3" id="fileDiv">
+					<div class="custom-file mt-1">
+						<input type="file" class="custom-file-input" id="customFile"
+							name="customFile" onchange="fnChngFile(this);"> <label
+							class="custom-file-label" for="customFile">Choose file</label>
+					</div>
+				</div>
+				<div class="float-right mt-2">
+					<a class="btn btn-primary text-white" href="javascript:fnAddFileDiv();">파일추가</a>
+					<a class="btn btn-danger text-white" href="javascript:fnDelFileDiv();">파일감소</a>
+				</div>
+				<th:block th:if="${refResultMap.fileList}">
+					<div class="fileList mt-3" th:each="refId : ${refResultMap.fileList}">
+						<img alt="image file" style="width: 50%" class="form-control1 img-thumbnail mt-3" th:src="@{/reffile/download(refId=${refId})}">
+						<div class="mt-2">
+							<a class="btn btn-dark" th:href="@{/reffile/download(refId=${refId})}">다운로드</a>
+							<button type="button" class="btn btn-danger" th:onclick="fnFileDelete(this, [[${refId}]])">파일삭제</button>
+						</div>
+					</div>
+				</th:block>
+			</div>
+			<div class="clearfix mt-5">
+				<div class="">
+					<button type="button" class="btn btn-success"
+						onclick="javascript:location.href='/refboard/list'">목록</button>
+					<button type="button" class="btn btn-primary" onclick="fnSubmit();" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">수정</button>
+					<button type="button" class="btn btn-danger"
+						th:onclick="fnViewDelete()" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">삭제</button>
+				</div>
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}">
+			</div>
+		</form>
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+	<script th:inline="javascript">
+		let frm = $("#frm");
+		let $origFileDiv = $(".custom-file");
+		let fileMaxCnt = 3, fileMaxSize = 10485760, fileAllowExt = [ "jpg",
+				"jpeg", "png" ];
+		let deleteFileRefIdArr = [];
+
+		function fnAddFileDiv() {
+			let fileDivCnt = $(".custom-file").length;
+
+			if (fileDivCnt >= fileMaxCnt) {
+				alert("더이상 추가할 수 없습니다.");
+				return false;
+			}
+
+			let $copyFileDiv = $origFileDiv.clone(true);
+
+			$copyFileDiv.find("input").val("");
+			$copyFileDiv.find("label").text("Choose file");
+			$copyFileDiv.find("label").attr("for", "customFile" + fileDivCnt);
+			$copyFileDiv.find("input").attr("id", "customFile" + fileDivCnt);
+			$copyFileDiv.find("input").attr("name", "customFile" + fileDivCnt);
+
+			$("#fileDiv").append($copyFileDiv);
+		}
+
+		function fnDelFileDiv() {
+			if ($(".custom-file").length <= 1) {
+				alert("더이상 줄일 수 없습니다.");
+				return false;
+			}
+			$(".custom-file")[$(".custom-file").length - 1].remove();
+		}
+
+		function fnChngFile(obj) {
+			let fileObj = $(obj)[0];
+			let fileVal = fileObj.files[0].name;
+			let fileSize = fileObj.files[0].size;
+			let fileExt = fileVal.substring(fileVal.lastIndexOf(".") + 1,
+					fileVal.length);
+			let flag = true;
+
+			if (fileAllowExt.indexOf(fileExt.toLowerCase()) < 0) {
+				alert("It is not a registrable extension.");
+			} else if (fileSize > fileMaxSize) {
+				alert("Attachments can be registered up to 10MB.");
+			} else if (($(".fileList").length + $(".custom-file-input").length) > 3) {
+				alert("Attachments can be registered up to 3 number.");
+			} else {
+				flag = false;
+				$(obj).next("label").text(fileVal);
+			}
+
+			if (flag) {
+				$(obj).val("");
+				$(obj).next("label").text("Choose file");
+			}
+		}
+
+		function fnFileDelete(obj, id) {
+			if (confirm("파일을 삭제하시겠습니까?")) {
+				$(obj).parents(".fileList").remove();
+				deleteFileRefIdArr.push(id);
+			}
+		}
+
+		function fnViewDelete() {
+			if (confirm("정말 삭제하시겠습니까?")) {
+				let frm = $("#frm");
+				frm.attr("action", "/refboard/view/delete");
+				frm.submit();
+			}
+		}
+
+		function fnSubmit() {
+			if (confirm("수정하시겠습니까?")) {
+				$("#frm").submit();
+			}
+		}
+
+		$(function() {
+			frm.validate({
+						messages : {
+							title : {
+								required : "Custom required, Please enter a title."
+							}
+						},
+						submitHandler : function(form) {
+							if (deleteFileRefIdArr.length > 0) {
+								$.ajax({
+											url : "/reffile/delete.ajax",
+											type : "post",
+											data : {
+												refIdArr : deleteFileRefIdArr
+											},
+											dataType : "json",
+											success : function(r) {
+												if (r.result) {
+													form.submit();
+												} else {
+													alert("A problem occurred, and progress is interrupted. Try again in a few minutes.");
+												}
+											},
+											error : function(jqXHR, status, error) {
+
+												if (jqXHR.status == '500') {
+													alert('수정 완료 되었습니다.');
+													location.href = '/refboard/list';
+												} else {
+													alert(jqXHR.responseText);
+												}
+
+											}
+										});
+							} else {
+								form.submit();
+							}
+						}
+					});
+		});
+	</script>
+</th:block>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:fragment="header" class="sticky-top">
+	<div class="container-fluid py-4 px-5 wow fadeIn sticky-top" data-wow-delay="0.1s">
+	
+		<div class="row align-items-center top-bar">
+			<div class="col-lg-4 col-md-12 text-center text-lg-start">
+
+				<h1 class="fw-bold text-primary m-0">
+					<a href="/"><img src="/img/logoY.png" alt="Logo"></a>
+				</h1>
+	
+			</div>
+			
+			<div class="navbar-log-member">
+				<a href="/members/login" class="navbar-log" sec:authorize="isAnonymous()">로그인</a>
+				<a href="/admin/list" class="navbar-log" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">회원관리</a>
+				<a href="/admin/homeUpdate" class="navbar-log" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">홈페이지관리</a>
+				<a href="/members/logout" class="navbar-log" sec:authorize="isAuthenticated()">로그아웃</a>
+				<a href="/members/new" class="navbar-member" sec:authorize="isAnonymous()">회원가입</a>
+			</div>
+			<div class="welbox">
+			<div class="welcome" sec:authorize="isAuthenticated()">
+            	<p class="wel" th:text="'[' + ${#authentication.name} + ']' + ' 님 환영합니다!'"></p>
+            </div>
+            </div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-lg navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+		<button type="button" class="navbar-toggler me-3" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+			<a href="#" class="navbar-brand ms-3 d-lg-none">메 뉴</a>
+			 <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<div class="navbar-nav me-auto p-3 p-lg-0">
+				<div class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">청년센터소개</a>
+					<div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
+						<a href="/introPage" class="dropdown-item">인사말</a>
+						<a href="/collaboPage" class="dropdown-item">경기청년일자리협업단</a>
+						<a href="/notice/list" class="dropdown-item">공지사항</a>
+					</div>
+				</div>
+				<div class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">연계서비스</a>
+					<div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
+						<a href="/careerTestPage" class="dropdown-item">진로검사</a>
+						<a href="/consultingPage" class="dropdown-item">자기소개서 컨설팅</a>
+						<!-- <a href="#" class="dropdown-item">(NULL)취업 멘토링</a> -->
+					</div>
+				</div>
+				<div class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판</a>
+					<div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
+						<a href="/freeboard/list" class="dropdown-item">자유게시판</a>
+						<a href="/refboard/list" class="dropdown-item">자료실</a>
+						<a href="/qnaboard/list" class="dropdown-item">Q&A</a>
+						<a href="/faq/list" class="dropdown-item">FAQ</a>
+					</div>
+				</div>
+				<div class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">온라인강의</a>
+					<div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
+						<a href="/lectures" class="dropdown-item">강의목록</a>
+						<!-- <a href="#" class="dropdown-item">(NULL)교육정보</a> -->
+						<!-- <a href="/orders" class="dropdown-item" sec:authorize="isAuthenticated()">나의강의</a> -->
+						<!-- <a href="#" class="dropdown-item">(NULL)인기과정</a> -->
+						<!-- <a href="#" class="dropdown-item">(NULL)추천과정</a> -->
+						<a href="#" class="dropdown-item">(NULL)Q&A공간</a>
+						<a href="/admin/lectures" class="dropdown-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_SUB_AD')" style="color: #61b6b2;">강의관리(관리자)</a>
+						<a href="/admin/lecture/new" class="dropdown-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_SUB_AD')" style="color: #61b6b2;">강의등록(관리자)</a>
+					</div>
+				</div>
+				<div class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle" sec:authorize="isAuthenticated()" data-bs-toggle="dropdown">마이페이지</a>
+					<div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
+						<!-- <a href="#" class="dropdown-item">(NULL)학습현황</a>
+						<a href="#" class="dropdown-item">(NULL)학습후기</a>
+						<a href="#" class="dropdown-item">(NULL)나의관심과정</a>
+						<a href="#" class="dropdown-item">(NULL)맞춤교육</a> -->
+						<a href="/orders" class="dropdown-item" sec:authorize="isAuthenticated()">나의강의</a>
+						<a href="/members/updateMember" sec:authorize="isAuthenticated()" class="dropdown-item">개인정보수정</a>
+					</div>
+				</div>
+				<a href="/jobPer" class="nav-link">취업률현황</a>					
+			</div>
+		</div>
+	</nav>
+</div>
+</html>

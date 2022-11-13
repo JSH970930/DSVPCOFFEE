@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+	<script src="/js/main.js"></script>
+
+	<div layout:fragment="content">
+		<input type="hidden" name="searchQuery" th:value="${lectureSearchDto.searchQuery}">
+		<div th:if="${not #strings.isEmpty(lectureSearchDto.searchQuery)}" class="center">
+			<p class="h3 font-weight-bold" th:text="${lectureSearchDto.searchQuery} + '검색 결과'"></p>
+		</div>
+		
+		<div class="row">
+			<th:block th:each="lecture, status: ${lectures.getContent()}">
+				<div class="col-md-4 margin">
+					<div class="card">
+						<a th:href="'/lecture/' + ${lecture.id}" class="text-dark">
+							<img th:src="${lecture.imgUrl}" class="card-img-top" th:alt="${lecture.lectureNm}" height="400">
+							<div class="card-body">
+								<h4 class="card-title">[[${lecture.lectureNm}]]</h4>
+								<p class="card-text">[[${lecture.lectureDetail}]]</p>
+								<h3 class="card-title text-danger">[[${lecture.price}]]원</h3>
+							</div>
+						</a>
+					</div>
+				</div>
+			</th:block>
+		</div>
+		
+		<!-- <div th:with="start=${(lectures.number/maxPage)*maxPage +1}, end=(${(lectures.totalPags == 0) ? 1 : (start + (maxPage - 1) <Lectures.totalPage ? start + (maxPage - 1) : lectures.totalPages)})">
+			<ul class="pagination justify-content-center">
+				<li class="page-lecture" th:classappend="${lectures.number eq 0}?'disabled':''">
+					<a th:href="@{'/lectures' + '?searchQuery=' + ${lectureSearchDto.searchQuery} + '&page=' + ${lectures.number-1}}" aria-label='Previous' class="page-link">
+						<span aria-hidden='true'>Previous</span>
+					</a>
+				</li>
+				
+				<li class="page-lecture" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${lectures.number eq page-1}?'active':''">
+					<a th:href="@{'/lectures' + '?searchQuery=' + ${lectureSearchDto.searchQuery} + '&page=' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+				</li>
+				
+				<li class="page-lecture" th:classappend="${lectures.number+1 ge lectures.totalPages}?'disabled':''">
+					<a th:href="@{'/lectures' + '?searchQuery=' + ${lectureSearchDto.searchQuery} + '&page=' ${lectures.number+1}}" aria-label='Nect' class="page-link">
+						<span aria-hidden='true'>Next</span>
+					</a>
+				</li>
+			</ul>
+		</div> -->
+	</div>
+</html>

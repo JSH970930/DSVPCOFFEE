@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+<head>
+	<style type="text/css">
+		.wrap {
+			overflow-x: auto;
+		}
+		
+		table {
+			width: 80%;
+			margin: auto;
+			min-width: 700px;
+			max-width: 1200px;
+		}
+		.title {
+			color: white;
+			background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+			text-align: center;
+			border: 3px solid black;
+			min-width: 700px;
+			max-width: 1200px;
+			font-size: 2.0em;
+			font-weight: bold;
+			margin: auto;
+			border-radius: 10px 10px 10px 10px;
+		}
+		
+		.info {
+			text-align: center;
+			margin: auto;
+			min-width: 700px;
+		}
+		
+		body {
+			min-width: 1200px;
+		}
+		
+	</style>
+		<th:block layout:fragment="script">
+		<script th:inline="javascript">    	    
+    	    function btnClick(event) {
+    	    	if(!confirm('회원 선택을 제대로 하셨습니까? \n어드민 선택 시 진입할 수 없습니다.')) {
+    	    		event.preventDefault();
+    	    	}
+    	    }
+	    </script>
+	</th:block>
+</head>
+<body>
+	<div layout:fragment="content">
+	<div class="innerContent2">
+	<div class="innerContent">
+		<div class="wrap">
+			<table class="table table-responsive table-hover table-sm table-bordered border-dark align-middle">
+				<thead>
+					<p class="title">회 원 리 스 트</p>
+				<br>
+					<p class="info">관리자나 일반 회원으로 등급을 조절할 수 있습니다.</p>
+				<br>
+					<tr class="align-middle">
+						<th class="text-center" scope="col">번호</th>
+						<th class="text-center" scope="col">닉네임</th>
+						<th class="text-center" scope="col">이메일</th>
+						<th class="text-center table-active" scope="col">회원등급</th>
+						<th class="text-center" scope="col">등급선택</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="members:${members}">
+						<td class="text-center" th:text="${members.id}"></td>
+						<td class="text-center" th:text="${members.name}"></td>
+						<td class="text-center" th:text="${members.email}"></td>
+						<td class="text-center table-active" th:text="${members.role}"></td>
+						<td class="text-center">
+						<form role="form" th:action="@{/admin/updateRole}" method="get">						
+							<input type="hidden" class="form-control" th:name="email" th:value="${members.email}">
+								<button type="submit" class="btn btn-primary" onclick="btnClick(event)">
+									수정
+								</button>
+						</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+	
+	</div> <!-- layout div -->
+	
+</body>
+</html>

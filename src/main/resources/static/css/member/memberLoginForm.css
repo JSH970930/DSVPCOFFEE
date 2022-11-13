@@ -1,0 +1,22 @@
+.error {
+	color: #bd2130;
+}
+
+.innerContent {
+	max-width: 50%;
+	min-width: 400px;
+	margin: auto;
+}
+
+.title {
+	color: white;
+	background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+	text-align: center;
+	border: 3px solid black;
+	max-width: 1200px;
+	min-width: 400px;
+	font-size: 2.0em;
+	font-weight: bold;
+	margin: auto;
+	border-radius: 10px 10px 10px 10px;
+}

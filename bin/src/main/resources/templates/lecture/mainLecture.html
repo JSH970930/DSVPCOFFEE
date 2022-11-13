@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+	
+	<script src="/js/main.js"></script>
+<head>
+<!-- 사용자 CSS 추가 -->
+	<th:block layout:fragment="css">
+		<link rel="stylesheet" type="text/css" href="/css/lecture/mainLecture.css">
+		<style>
+			.card {
+				background: white;
+			}
+			
+			.text-dark:hover {
+				text-decoration: none;
+				background: #CCC;
+			}
+		</style>
+	</th:block>
+</head>
+<body style="overflow-x: hidden">
+	<div layout:fragment="content">
+		<div class="box">
+		<input type="hidden" name="searchQuery" th:value="${lectureSearchDto.searchQuery}">
+		<div th:if="${not #strings.isEmpty(lectureSearchDto.searchQuery)}" class="center">
+			<p class="h3 font-weight-bold" th:text="${lectureSearchDto.searchQuery} + '검색 결과'"></p>
+		</div>
+		<br>
+		<br>
+		<p class="title">강 의 목 록</p>
+		<br>
+		<div class="row">
+			<th:block th:each="lecture, status: ${lectures.getContent()}">
+				<div class="col-md-4 margin">
+					<div class="card">
+						<a th:href="'/lecture/' + ${lecture.id}" class="text-dark">
+							<img th:src="${lecture.imgUrl}" class="card-img-top" th:alt="${lecture.lectureNm}">
+							<div class="card-body">
+								<h4 class="card-title" style="font-weight: bold;">강의명 : [[${lecture.lectureNm}]]</h4>
+								<p class="card-text">[[${lecture.lectureDetail}]]</p>
+								<h3 class="card-price text-primary" style="text-align: right;">[[${lecture.price}]]원</h3>
+							</div>
+						</a>
+					</div>
+				</div>
+			</th:block>
+		</div>
+		
+		<div th:with="start=${(lectureNumber/maxPage)*maxPage + 1}, end=(${(lectureTotalPages == 0) ? 1 : (start + (maxPage - 1) < lectureTotalPages ? start + (maxPage - 1) : lectureTotalPages)})" >
+			<ul class="pagination justify-content-center">
+			
+				<li class="page-lecture" th:classappend="${lectureNumber eq 0}?'disabled':''">
+					<a th:href="@{'lectures' + '?searchQuery=' + ${lectureSearchDto.searchQuery} + '&page=' + ${lectureNumber-1}}" aria-label='Previous' class="page-link">
+						<span aria-hidden='true'>이전</span>
+					</a>
+				</li>
+				
+				<li class="page-lecture" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${lectureNumber eq page-1}?'active':''">
+					<a th:href="@{'lectures' + '?searchQuery=' + ${lectureSearchDto.searchQuery} + '&page=' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+				</li>
+								
+				<li class="page-lecture" th:classappend="${lectureNumber+1 ge lectureTotalPages}?'disabled':''">
+					<a th:href="@{'lectures' + '?searchQuery=' + ${lectureSearchDto.searchQuery} + '&page=' + ${lectureNumber+1}}" aria-label='Next' class="page-link">
+						<span aria-hidden='true'>다음</span>
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

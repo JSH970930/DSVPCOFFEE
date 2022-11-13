@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<head>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+	<!-- 사용자 CSS 추가 -->
+		<style type="text/css">
+			.wrap {
+				width: 80%;
+				margin: auto;
+			}
+			
+			.title {
+				color: white;
+				background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+				text-align: center;
+				border: 3px solid black;
+				max-width: 600px;
+				min-width: 400px;
+				font-size: 2.0em;
+				font-weight: bold;
+				margin: auto;
+				border-radius: 10px 10px 10px 10px;
+			}
+			
+			.cont {
+				text-align: center;
+			}
+			
+			.updatebox {
+				max-width: 600px;
+				min-width: 400px;
+				margin: auto;
+			}
+			
+			.at {
+				font-size: 1.2em;
+			}
+			
+			.introbox {
+				border: 1px solid #103c7e;
+				border-radius: 10px 10px 10px 10px;
+				margin: 15px;
+				padding: 15px;
+			}
+			
+			.jobLinkbox {
+				border: 1px solid #103c7e;
+				border-radius: 10px 10px 10px 10px;
+				margin: 15px;
+				padding: 15px;
+			}
+			
+			.empRatebox {
+				border: 1px solid #103c7e;
+				border-radius: 10px 10px 10px 10px;
+				margin: 15px;
+				padding: 15px;
+			}
+		</style>
+
+	<!-- 사용자 스크립트 추가 -->
+	<th:block layout:fragment="script">
+	
+	</th:block>
+</head>
+
+<div layout:fragment="content">
+	<div class="wrap">
+		<br>
+		<br>
+		<p class="title">
+			홈 페 이 지 관 리
+		</p>
+		<br>
+		<p class="cont">
+			원하는 페이지를 선택하여 관리할 수 있습니다.
+		</p>
+		<div class="updatebox">
+			<div class="introbox">
+				<a href="#" class="at">인사말관리</a>
+				<br>
+				<a href="#" class="at">경기청년일자리협업단</a>
+				<br>
+			</div>
+			<div class="jobLinkbox">
+				<a href="#" class="at">진로검사</a>
+				<br>
+				<a href="#" class="at">자기소개컨설팅</a>
+				<br>
+				<a href="#" class="at">취업멘토링</a>
+				<br>
+			</div>
+			<div class="empRatebox">
+				<a href="#" class="at">취업률현황</a>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

@@ -1,0 +1,100 @@
+.title {
+	color: white;
+	background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+	text-align: center;
+	border: 3px solid black;
+	min-width: 50%;
+	max-width: 700px;
+	font-size: 2.0em;
+	font-weight: bold;
+	margin: auto;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.content-mg {
+	margin-top: 2%;
+	margin-bottom: 100px;
+}
+
+.repImgDiv {
+	margin-right: 15px;
+	margin-left: 15px;
+	height: auto;
+}
+
+.repImg {
+	margin-top: 10px;
+	height: 150px;
+	width: 150px;
+	border: 10px solid #103c7e;
+}
+
+.card {
+	width: 750px;
+	height: 100%;
+	padding: 30px;
+	margin-bottom: 20px;
+	margin: auto;
+}
+
+.fs18 {
+	font-size: 18px
+}
+
+.fs24 {
+	color: #103c7e;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.disabled {
+	pointer-events: none;
+	cursor: default;
+}
+
+.contbox {
+	margin: auto;
+}
+
+.time {
+	position: relative;
+	float: right;
+	right: 5px;
+	top: 5px;
+}
+
+.cancle {
+	position: relative;
+	float: right;
+	right: 5px;
+	background: #DC3545;
+	pointer-events: none;
+	border: none;
+	border-radius: 5px;
+	width: 90px;
+	height: 38px;
+	color: white;
+}
+
+.btn {
+	position: relative;
+	float: right;
+	right: 5px;
+}
+
+.brcont {
+	position: relative;
+	min-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	top: 30px;
+}
+
+.align-self-center {
+	position: relative;
+	left: 30px;
+}
+
+.d-flex {
+	margin-bottom: 30px;
+}

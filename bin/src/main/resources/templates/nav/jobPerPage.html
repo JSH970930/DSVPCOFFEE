@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<head>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+	<!-- 사용자 CSS 추가 -->
+	<style type="text/css">
+		.img {
+			width: 100%;
+			border: 10px solid #ccc;
+			border-radius: 30px;
+			padding: 50px;
+			margin-top: 20px;
+			text-align: center;
+		}
+		
+		.title {
+			color: white;
+			background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+			text-align: center;
+			border: 3px solid black;
+			min-width: 50%;
+			max-width: 700px;
+			font-size: 2.0em;
+			font-weight: bold;
+			margin: auto;
+			border-radius: 10px 10px 10px 10px;
+		}
+	</style>
+	<!-- 사용자 스크립트 추가 -->
+	<th:block layout:fragment="script">
+	
+	</th:block>
+</head>
+
+<div layout:fragment="content">
+<br>
+<br>
+<p class="title">취 업 률 현 황</p>
+<br>
+	<img class="img" src="img/barGraph.png">
+	<img class="img" src="img/pieGraph.png">
+</div>
+</html>

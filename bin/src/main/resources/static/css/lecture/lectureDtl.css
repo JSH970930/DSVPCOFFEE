@@ -1,0 +1,59 @@
+.title {
+	color: white;
+	background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+	text-align: center;
+	border: 3px solid black;
+	min-width: 50%;
+	max-width: 700px;
+	font-size: 2.0em;
+	font-weight: bold;
+	margin: auto;
+	border-radius: 10px 10px 10px 10px;
+}
+
+.mgb-15 {
+	margin-bottom: 15px;
+	color: black;
+	font-size: 1.4em;
+	border: 3px solid #61b6b2;
+}
+
+.mgt-30 {
+	margin-top: 30px;
+}
+
+.mgt-50 {
+	margin-top: 50px;
+}
+
+.repImgDiv {
+	margin-right: 15px;
+	height: auto;
+	width: 100%;
+	border: 5px solid #61b6b2;
+	border-radius: 10px;
+}
+
+.repImg {
+	width: 100%;
+	height: 100%;
+	padding: 5px;
+}
+
+.rounded {
+	padding: 5px;
+	text-align: center;
+}
+
+.wd50 {
+	height: auto;
+	width: 50%;
+}
+
+.btn {
+	float: right;
+}
+
+.wrap {
+	width: 100%;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		function cancelOrder(orderId) {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			var url = "/order/" + orderId + "/cancel";
+			var paramData = {
+				orderId : orderId,
+			};
+			var param = JSON.stringify(paramData);
+			$.ajax({
+				url : url,
+				type : "POST",
+				contentType : "application/json",
+				data : param,
+				beforeSend : function(xhr){
+					/* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status){
+					alert("강의가 취소 되었습니다.");
+					location.href='/orders/' + [[${page}]];
+				},
+				error : function(jqXHR, status, error){
+					if(jqXHR.status == '500'){
+						alert('로그인 후 이용해주세요');
+						location.href='/members/login';
+					} else{
+						alert(jqXHR.responseText);
+					}
+				}
+			});
+		}
+
+	</script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" type="text/css" href="/css/order/orderHist.css">
+</th:block>
+</head>
+<body style="overflow-x: hidden">
+	<div layout:fragment="content" class="content-mg">
+	<div class="contbox">
+		<br>
+		<br>
+		<p class="title">나 의 강 의</p>
+		<br>
+		<div th:each="order : ${orders.getContent()}">
+			<div class="card d-flex">
+				<div th:each="orderLecture : ${order.orderLectureDtoList}" class="d-flex mb-3">
+				<br>
+					<div class="repImgDiv">
+						<img th:src="${orderLecture.imgUrl}" class="rounded repImg" th:alt="${orderLecture.lectureNm}">
+					</div>
+					<div class="align-self-center w-75">
+						<span th:text="'강의명 : ' + ${orderLecture.lectureNm}" class="fs24 font-weight-bold"></span>
+						<div class="fs18 font-weight-light">
+							<span th:text="'가격 : ' + ${orderLecture.orderPrice} +'원'"></span>
+						</div>
+						<div class="brcont">
+							<div class="ml-3">
+								<th:block th:if="${order.orderStatus == T(com.youth.constant.OrderStatus).ORDER}">
+									<button type="button" class="btn btn-primary" th:value="${order.orderId}" onclick="cancelOrder(this.value)">강의취소</button>
+								</th:block>
+								<th:block th:unless="${order.orderStatus == T(com.youth.constant.OrderStatus).ORDER}">
+									<button class="cancle btn-primary">취소완료</button>
+								</th:block>
+							</div>
+							<h4 class="time" th:text="${order.orderDate} + '에 신청한 강의' + '&nbsp'"></h4>
+						</div>
+							<!-- <span th:text="${orderLecture.count} +'개'"></span> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		<br>
+		<div
+			th:with="start=${(ordersNumber/maxPage)*maxPage + 1}, end=(${(ordersTotalPages == 0) ? 1 : (start + (maxPage - 1) < ordersTotalPages ? start + (maxPage - 1) : ordersTotalPages)})">
+			<ul class="pagination justify-content-center">
+				<li class="page-order" th:classappend="${ordersNumber eq 0}?'disabled':''">
+					<a th:href="@{'/orders/' + ${ordersNumber-1}}" aria-label='Previous' class="page-link">
+						<span aria-hidden='true'>이전</span>
+					</a>
+				</li>
+				
+				<li class="page-order" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${ordersNumber eq page-1}?'active':''">
+					<a th:href="@{'/orders/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+				</li>
+				
+				<li class="page-order" th:classappend="${ordersNumber+1 ge ordersTotalPages}?'disabled':''">
+					<a th:href="@{'/orders/' + ${ordersNumber+1}}" aria-label='Next' class="page-link">
+					<span aria-hidden='true'>다음</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

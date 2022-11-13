@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<title>공지게시판</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- 부트스트랩 css 추가 -->
+<!-- <link rel="stylesheet" href="/css/lib/bootstrap.min.css"> -->
+<th:block layout:fragment="css">
+		<style>
+			.fieldError {
+				color: #bd2130;
+			}
+			
+			.innerContent {
+				max-width: 50%;
+				min-width: 400px;
+				margin: auto;
+			}
+			
+			.title {
+				color: white;
+				background: linear-gradient(to right, #61b6b2 80%, #103c7e);
+				text-align: center;
+				border: 3px solid black;
+				max-width: 700px;
+				min-width: 400px;
+				font-size: 2.0em;
+				font-weight: bold;
+				margin: auto;
+				border-radius: 10px 10px 10px 10px;
+			}
+			
+			.container {
+				margin-top : 50px;
+			}
+			
+			.btBox {
+				margin: auto;
+				text-align: center;
+			}
+		</style>
+</head>
+<body>
+<div layout:fragment="content">
+	<div class="container">
+	<br>
+	<br>
+	<p class="title">공 지 사 항 등 록</p>
+	<br>
+		<form action="/notice/write/action" method="post">
+			<div class="mb-3">
+			    <label class="form-label">제목</label>
+			    <input type="text" class="form-control" id="" name="title">
+			</div>
+			<div class="mb-3">
+		    	<label class="form-label">내용</label>
+		    	<textarea class="form-control" rows="5" cols="" name="content"></textarea>
+			</div>
+			<div class="mb-3">
+			    <label class="form-label">작성자</label>
+			    <input type="text" class="form-control" name="registerId"  value="공지사항 관리자" readonly>
+			</div>
+			   <!-- <div class="mb-3">
+          <label  class="form-label">첨부 파일</label>
+         
+            <div class="custom-file" id="inputFile">
+              <input name="file" type="file" class="custom-file-input" id="customFile" />
+              <label class="custom-file-label" for="customFile">파일을 선택해 주세요.</label>
+           
+          </div>
+        </div> -->
+        	<div class="btBox">
+				<button type="button" class="btn btn-success" onclick="javascript:location.href='/notice/list'">목록으로</button>
+				<button type="submit" class="btn btn-primary">등록</button>
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+			</div>
+		</form>
+	</div>
+	<!--부트스트랩 js, jquery 추가-->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	</div>
+</body>
+</html>

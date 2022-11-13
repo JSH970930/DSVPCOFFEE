@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+<head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function(){
+			$("#searchBtn").on("click", function(e) {
+				e.preventDefault();
+				page(0);
+			});
+		});
+		
+		function page(page) {
+			var searchDateType = $("#searchDateType").val();
+			var searchSellStatus = $("#searchSellStatus").val();
+			var searchBy = $("#searchBy").val();
+			var searchQuery = $("#searchQuery").val();
+			
+			location.href="/admin/lectures/" + page + "?searchDateType=" + searchDateType
+					+ "&searchSellStatus=" + searchSellStatus
+					+ "&searchBy=" + searchBy
+					+ "&searchQuery=" + searchQuery;
+		}
+	</script>
+</th:block>
+
+<!-- 사용자 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" type="text/css" href="/css/lecture/lectureMng.css">
+</th:block>
+
+</head>
+<body>
+	<div layout:fragment="content">
+		<form th:action="@{'/admin/lectures/' + ${lectures.number}}" role="form" method="get" th:object="${lectures}">
+			<table class="table table-hover table-bordered border-dark align-middle">
+			<br>
+				<p class="title">강 의 관 리</p>
+			<br>
+				<p class="info">강의명을 선택하여 상태를 정보를 수정할 수 있습니다.</p>
+			<br>
+				<thead>
+					<tr class="trNm">
+						<td class="text-center">강의번호</td>
+						<td class="table-active text-center">강의명</td>
+						<td class="text-center">상태</td>
+						<td class="text-center">등록자</td>
+						<td class="text-center">등록일</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="lecture, status:${lectures.getContent()}">
+						<td class="text-center" th:text="${lecture.id}"></td>
+						<td class="lecNm table-active text-center">
+							<a class="a" th:href="'/admin/lecture/'+${lecture.id}" th:text="${lecture.lectureNm}"></a>
+						</td>
+						<td class="text-center" th:text="${lecture.lectureSellStatus == T(com.youth.constant.LectureSellStatus).OPEN} ? '오픈강의' : '클로즈강의'"></td>
+						<td class="text-center" th:text="${lecture.createdBy}"></td>
+						<td class="text-center" th:text="${lecture.regTime}"></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div th:with="start=${(lectureNumber/maxPage)*maxPage + 1}, end=(${(lectureTotalPages == 0) ? 1 : (start + (maxPage - 1) < lectureTotalPages ? start + (maxPage -1) : lectureTotalPages)})">
+				<ul class="pagination justify-content-center">
+				
+					<li class="page-lecture" th:classappend="${lectures.first}?'disabled'">
+						<a th:onclick="'javascript:page(' + ${lectureNumber - 1} + ')'" aria-label='Previous' class="page-link">
+							<span aria-hidden='true'>이전</span>
+						</a>
+					</li>
+					
+					<li class="page-lecture" th:each="page:${#numbers.sequence(start, end)}" th:classappend="${lectureNumber eq page-1}?'active':''">
+						<a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+					</li>
+					
+					<li class="page-lecture" th:classappend="${lectures.last}?'disabled'">
+						<a th:onclick="'javascript:page(' + ${lectureNumber + 1} + ')'" aria-label='Next' class="page-link">
+							<span aria-hidden='true'>다음</span>
+						</a>
+					</li>
+				</ul>
+				<br>
+			</div>
+			
+			<div class="form-inline justify-content-center" th:object="${lectureSearchDto}">
+				<select th:field="*{searchDateType}" class="selectBox" style="width:auto;">
+					<option value="all">전체기간</option>
+					<option value="1d">1일</option>
+					<option value="1w">1주</option>
+					<option value="1m">1개월</option>
+					<option value="6m">6개월</option>
+				</select>
+				<select th:field="*{searchSellStatus}" class="selectBox" style="width:auto;">
+					<option value="">강의상태(전체)</option>
+					<option value="OPEN">오픈강의</option>
+					<option value="NOT_OPEN">클로즈강의</option>
+				</select>
+				<select th:field="*{searchBy}" class="selectBox" style="width:auto;">
+					<option value="lectureNm">강의명</option>
+					<option value="createdBy">등록자</option>
+				</select>
+				<input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요.">
+				<br>
+				<button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
