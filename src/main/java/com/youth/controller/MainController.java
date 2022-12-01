@@ -56,6 +56,11 @@ public class MainController {
 		return "/nav/jobPerPage";
 	}
 	
+	@GetMapping("/popup")
+	public String makePopup() {
+	    return "/popup";
+	}
+	
 	
 	@GetMapping(value = "lectures")
 	public String lectures(LectureSearchDto lectureSearchDto, Optional<Integer> page, Model model) {

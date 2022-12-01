@@ -1,5 +1,8 @@
 package com.youth.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -38,6 +41,10 @@ public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long>{
 	@Modifying
 	@Query(value = DELETE_FREEBOARD, nativeQuery = true)
 	public int deleteFreeBoard(@Param("deleteList") Long[] deleteList);
+
+	
+
+	public Page<FreeBoard> findByTitleContaining(Pageable pageable, String scrinId);
 
 
 }

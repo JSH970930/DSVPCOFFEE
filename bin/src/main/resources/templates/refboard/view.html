@@ -20,13 +20,13 @@
 			}
 			
 			input[type=file]::file-selector-button {
-			width: 100px;
-  			padding: 5px;
-  			background: white;
-  			border: 3px solid #61b6b2;
-  			border-radius: 10px;
-  			cursor: pointer;
-  			transition: all 0.5s;
+				width: 100px;
+	  			padding: 5px;
+	  			background: white;
+	  			border: 3px solid #61b6b2;
+	  			border-radius: 10px;
+	  			cursor: pointer;
+	  			transition: all 0.5s;
 			}
 			
 			input[type=file]::file-selector-button:hover {
@@ -46,7 +46,7 @@
 			
 			.form-control1 {
 				margin: auto;
-				text-align: c
+				text-align: 
 			}
 		</style>
 	</th:block>
@@ -183,7 +183,7 @@
 		}
 
 		function fnViewDelete() {
-			if (confirm("Do you want to delete it?")) {
+			if (confirm("정말 삭제하시겠습니까?")) {
 				let frm = $("#frm");
 				frm.attr("action", "/refboard/view/delete");
 				frm.submit();

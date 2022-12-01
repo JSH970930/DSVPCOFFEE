@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout>
+<head>
+<meta charset="utf-8">
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+ 
+ 
+<meta charset="EUC-KR">
+<title>DSVP 커피선호도 조사입니다</title>
+</head>
+<body>
+<h1>카페를 고를 때 선호조 조사입니다.</h1>
+<form name="subform" id="subform" method="get">
+
+<input type="radio" name="check1" value="D">
+<span>맛</span><br>
+<input type="radio" name="check1" value="S">
+<span>디저트</span><br>
+<input type="radio" name="check1" value="V">
+<span>분위기 및 시야</span><br>
+<input type="radio" name="check1" value="P">
+<span>가격, 가성비</span><br>
+
+<input type="radio" name="check2" value="D">
+<span>맛</span><br>
+<input type="radio" name="check2" value="S">
+<span>디저트</span><br>
+<input type="radio" name="check2" value="V">
+<span>분위기 및 시야</span><br>
+<input type="radio" name="check2" value="P">
+<span>가격, 가성비</span><br>
+
+
+<input type="button" name="subbtn" value="subbtn" id="subbtn">
+</form>
+</body>
+
+<script th:inline="javascript">
+
+    $('#subbtn').click(function () {
+      // getter
+      var radioVal1 = $('input[name="check1"]:checked').val();
+      var radioVal2 = $('input[name="check2"]:checked').val();
+      var superVal = radioVal1+radioVal2
+      console.log(superVal)
+      if(radioVal1==radioVal2){
+    	  alert("중복된 값을 체크했습니다")
+      }
+      $("#subform").attr("action", "/DSVP"+superVal).submit();
+    });
+
+  
+
+
+
+</script>
+
+</html>

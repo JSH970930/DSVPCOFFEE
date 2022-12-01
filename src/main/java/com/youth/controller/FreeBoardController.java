@@ -27,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 public class FreeBoardController {
 	
 	private final FreeBoardService fbService;
+	
+	
 
 	
 	@GetMapping("/freeboard/list")

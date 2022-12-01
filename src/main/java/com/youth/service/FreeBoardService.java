@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +68,22 @@ public class FreeBoardService {
 	
 	public void deleteAll(Long[] deleteFboardno) {
 		fbRepository.deleteFreeBoard(deleteFboardno);
+	}
+
+
+	public HashMap<String, Object> findByTitleContaining(Integer page, Integer size, String scrinId) {
+
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createDate"));
+		Page<FreeBoard> list = fbRepository.findByTitleContaining(pageable, scrinId);
+	
+		resultMap.put("list", list.stream().map(FreeBoardResponseDto::new).collect(Collectors.toList()));
+		resultMap.put("paging", list.getPageable());
+		resultMap.put("totalCnt", list.getTotalElements());
+		resultMap.put("totalPage", list.getTotalPages());
+		
+		return resultMap;
 	}
 
 }

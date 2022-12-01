@@ -56,7 +56,7 @@
 					<div class="dropdown-menu border-0 rounded-0 rounded-bottom m-0">
 						<a href="/freeboard/list" class="dropdown-item">자유게시판</a>
 						<a href="/refboard/list" class="dropdown-item">자료실</a>
-						<a href="/qnaboard/list" class="dropdown-item">Q&A</a>
+						<a href="/question/list" class="dropdown-item">Q&A</a>
 						<a href="/faq/list" class="dropdown-item">FAQ</a>
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 						<!-- <a href="/orders" class="dropdown-item" sec:authorize="isAuthenticated()">나의강의</a> -->
 						<!-- <a href="#" class="dropdown-item">(NULL)인기과정</a> -->
 						<!-- <a href="#" class="dropdown-item">(NULL)추천과정</a> -->
-						<a href="#" class="dropdown-item">(NULL)Q&A공간</a>
+						<a href="/question2/list" class="dropdown-item">Q&A공간</a>
 						<a href="/admin/lectures" class="dropdown-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_SUB_AD')" style="color: #61b6b2;">강의관리(관리자)</a>
 						<a href="/admin/lecture/new" class="dropdown-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN', 'ROLE_SUB_AD')" style="color: #61b6b2;">강의등록(관리자)</a>
 					</div>
